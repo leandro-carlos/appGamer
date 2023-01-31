@@ -1,13 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  Image,
-  TouchableOpacity,
-  ImageBackground,
-} from "react-native";
+import React from "react";
+import { StyleSheet, ImageBackground } from "react-native";
 
 export default function Background({ children }) {
   interface children {
@@ -17,7 +9,8 @@ export default function Background({ children }) {
   return (
     <ImageBackground
       style={styles.container}
-      source={require("../assets/background-galaxy.png")}
+      defaultSource={require("../../assets/background-galaxy.png")}
+      source={require("../../assets/background-galaxy.png")}
     >
       {children}
     </ImageBackground>

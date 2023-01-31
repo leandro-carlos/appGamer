@@ -2,7 +2,7 @@ export const GAMES = [
   {
     id: "1",
     name: "League of Legends",
-    ads: "4",
+    ads: "1",
     cover: require("../assets/games/game-1.png"),
   },
   {
