@@ -6,29 +6,34 @@ import {
   TouchableOpacity,
   View,
   Text,
+  TouchableOpacityProps,
 } from "react-native";
 import { THEME } from "../../theme";
+
+import { useNavigation } from "@react-navigation/native";
 
 import { styles } from "./styles";
 
 export interface GameCardProps {
   id: string;
-  name: string;
-  ads: string;
-  cover: ImageSourcePropType;
+  titulo: string;
+  _count: { ads: string };
+  bannerUrl: string;
 }
 
-interface Props {
+interface Props extends TouchableOpacityProps {
   data: GameCardProps;
 }
 
-export function GameCard({ data }: Props) {
+export function GameCard({ data, ...rest }: Props) {
+  const navigation = useNavigation();
+
   return (
-    <TouchableOpacity style={styles.container}>
-      <ImageBackground source={data.cover} style={styles.cover}>
+    <TouchableOpacity {...rest} style={styles.container}>
+      <ImageBackground source={{ uri: data.bannerUrl }} style={styles.cover}>
         <LinearGradient style={styles.footer} colors={THEME.COLORS.FOOTER}>
-          <Text style={styles.txtName}> {data.name} </Text>
-          <Text style={styles.txtAds}>{data.ads} anúncios</Text>
+          <Text style={styles.txtName}> {data.titulo} </Text>
+          <Text style={styles.txtAds}>{data._count.ads} anúncios</Text>
         </LinearGradient>
       </ImageBackground>
     </TouchableOpacity>
