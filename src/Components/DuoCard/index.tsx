@@ -4,13 +4,28 @@ import { THEME } from "../../theme";
 import Duoinfo from "../DuoInfo";
 
 import { DuoPropsBack } from "../../pages/Game";
+import DuoMatch from "../DuoMatch";
+import api from "../../provider/api";
 
 interface DataBy {
   data: DuoPropsBack;
   onConnect: () => void;
 }
 
-export default function DuoCard({ data, onConnect }: DataBy): JSX.Element {
+export default function DuoCard({ data, onConnect }: DataBy) {
+  const [duoSelect, setDuoSelected] = useState("");
+
+  async function handleDiscordToClipBoard(discordId: string) {
+    api
+      .get(`/ads/${discordId}/discord`)
+      .then((res) => {
+        setDuoSelected(res.data.discord);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Duoinfo title={"Nome"} description={data[0]?.name} />
@@ -27,9 +42,21 @@ export default function DuoCard({ data, onConnect }: DataBy): JSX.Element {
         color={"green"}
         description={data[0]?.useVoiceChannel ? "Sim" : "Não"}
       />
-      <TouchableOpacity onPress={onConnect} style={styles.btnConnect}>
+      <TouchableOpacity
+        onPress={() => handleDiscordToClipBoard(data[0].game.id)}
+        style={styles.btnConnect}
+      >
         <Text>Conectar</Text>
       </TouchableOpacity>
+
+      <DuoMatch
+        animationType="fade"
+        statusBarTranslucent
+        discord={duoSelect}
+        transparent
+        onClose={() => setDuoSelected("")}
+        visible={duoSelect.length > 0}
+      />
     </SafeAreaView>
   );
 }
